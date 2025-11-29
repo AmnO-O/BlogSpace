@@ -1,0 +1,259 @@
+{% extends "layout.html" %}
+
+{% block title %} Write Zone - BlogSpace {% endblock %}
+
+{% block css %}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('user.static', filename='writezone.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="writezone-container">
+  <!-- Sidebar -->
+  <aside class="writezone-sidebar">
+    <div class="sidebar-header">
+      <h3><i class="fas fa-pen-fancy"></i> Editor</h3>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="sidebar-section">
+      <h4>Quick Actions</h4>
+      <button class="btn btn-secondary btn-small" id="save-draft-btn">
+        <i class="fas fa-save"></i> Save Draft
+      </button>
+      <button class="btn btn-primary btn-small" id="publish-btn">
+        <i class="fas fa-paper-plane"></i> Publish
+      </button>
+      <button class="btn btn-outline btn-small" id="preview-btn">
+        <i class="fas fa-eye"></i> Preview
+      </button>
+    </div>
+
+    <!-- Word Count -->
+    <div class="sidebar-section stats-box">
+      <h4>Stats</h4>
+      <div class="stat-item">
+        <span class="stat-label">Words</span>
+        <span class="stat-value" id="word-count">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Characters</span>
+        <span class="stat-value" id="char-count">0</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-label">Read Time</span>
+        <span class="stat-value" id="read-time">0 min</span>
+      </div>
+    </div>
+
+    <!-- Format Tips -->
+    <div class="sidebar-section tips-box">
+      <h4>Writing Tips</h4>
+      <ul class="tips-list">
+        <li><strong>Bold:</strong> **text**</li>
+        <li><strong>Italic:</strong> *text*</li>
+        <li><strong>Code:</strong> `code`</li>
+        <li><strong>Link:</strong> [text](url)</li>
+        <li><strong>Heading:</strong> # Title</li>
+      </ul>
+    </div>
+
+    <!-- Status -->
+    <div class="sidebar-section status-box">
+      <p class="status-text" id="status-text">Ready to write...</p>
+      <small id="last-saved">Never saved</small>
+    </div>
+  </aside>
+
+  <!-- Main Editor -->
+  <main class="writezone-main">
+    <!-- Header -->
+    <div class="editor-header" style = "display : grid; justify-content: center;">
+      <h1>Create New Blog Post ✍️</h1>
+      <p>Share your thoughts and ideas with the world</p>
+    </div>
+
+    <!-- Form -->
+    <form id="blog-form" class="blog-form" action = '/usr/writezone' method = "POST" enctype="multipart/form-data">
+      <!-- Title -->
+      <div class="form-group">
+        <label for="blog-title">Blog Title <span class="required">*</span></label>
+        <input 
+          type="text" 
+          id="blog-title" 
+          name="title" 
+          placeholder="Enter an engaging title for your blog post..." 
+          class="form-input"
+          maxlength="200"
+          required
+        >
+        <small class="char-count"><span id="title-count">0</span>/200</small>
+      </div>
+
+      <!-- Featured Image -->
+      <div class="form-group">
+        <label for="featured-image">Featured Image</label>
+        <div class="image-upload">
+          <input 
+            type="file" 
+            id="featured-image" 
+            name="featured_image" 
+            accept="image/*"
+            class="file-input"
+          >
+          <label for="featured-image" class="upload-label">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>Click to upload or drag & drop</span>
+            <small>PNG, JPG up to 10MB</small>
+          </label>
+          <div id="image-preview" class="image-preview"></div>
+        </div>
+      </div>
+
+      <!-- Category & Tags Row -->
+      <div class="form-row">
+        <!-- Category -->
+        <div class="form-group">
+          <label for="category">Category <span class="required">*</span></label>
+          <select id="category" name="category" class="form-input" required>
+            <option value="">Select a category...</option>
+            <option value="technology">Technology</option>
+            <option value="lifestyle">Lifestyle</option>
+            <option value="business">Business</option>
+            <option value="travel">Travel</option>
+            <option value="education">Education</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <!-- Tags -->
+        <div class="form-group">
+          <label for="tags">Tags</label>
+          <input 
+            type="text" 
+            id="tags" 
+            name="tags" 
+            placeholder="Add tags (comma-separated)..."
+            class="form-input"
+          >
+          <small>e.g. chat, story, tutorial</small>
+        </div>
+      </div>
+
+      <!-- Content Editor -->
+      <div class="form-group">
+        <label for="blog-content">Content <span class="required">*</span></label>
+        <div class="editor-toolbar">
+          <button type="button" class="toolbar-btn" title="Bold" data-format="bold">
+            <i class="fas fa-bold"></i>
+          </button>
+          <button type="button" class="toolbar-btn" title="Italic" data-format="italic">
+            <i class="fas fa-italic"></i>
+          </button>
+          <button type="button" class="toolbar-btn" title="Heading" data-format="heading">
+            <i class="fas fa-heading"></i>
+          </button>
+          <div class="toolbar-divider"></div>
+          <button type="button" class="toolbar-btn" title="Link" data-format="link">
+            <i class="fas fa-link"></i>
+          </button>
+          <button type="button" class="toolbar-btn" title="Code Block" data-format="code">
+            <i class="fas fa-code"></i>
+          </button>
+          <button type="button" class="toolbar-btn" title="Quote" data-format="quote">
+            <i class="fas fa-quote-left"></i>
+          </button>
+          <div class="toolbar-divider"></div>
+          <button type="button" class="toolbar-btn" title="Bullet List" data-format="bullet">
+            <i class="fas fa-list-ul"></i>
+          </button>
+          <button type="button" class="toolbar-btn" title="Numbered List" data-format="numbered">
+            <i class="fas fa-list-ol"></i>
+          </button>
+        </div>
+        <textarea 
+          id="blog-content" 
+          name="content" 
+          placeholder="Write your blog post here... Markdown is supported!"
+          class="form-textarea"
+          required
+        ></textarea>
+      </div>
+
+      <!-- SEO Description -->
+      <div class="form-group">
+        <label for="seo-description">SEO Description</label>
+        <textarea 
+          id="seo-description" 
+          name="seo_description" 
+          placeholder="Brief description for search engines (120-160 characters recommended)..."
+          class="form-textarea small"
+          maxlength="160"
+        ></textarea>
+        <small class="char-count"><span id="seo-count">0</span>/160</small>
+      </div>
+
+      <!-- Publish Options -->
+      <div class="form-group">
+        <label>Publish Options</label>
+        <div class="publish-options">
+          <div class="option-item">
+            <input type="radio" id="publish-now" name="publish_option" value="now" checked>
+            <label for="publish-now">
+              <i class="fas fa-rocket"></i> Publish Now
+            </label>
+          </div>
+          <div class="option-item">
+            <input type="radio" id="schedule-publish" name="publish_option" value="schedule">
+            <label for="schedule-publish">
+              <i class="fas fa-calendar-alt"></i> Schedule
+            </label>
+            <input 
+              type="datetime-local" 
+              id="publish-date" 
+              name="publish_date"
+              class="form-input"
+              style="display: none;"
+            >
+          </div>
+          <div class="option-item">
+            <input type="radio" id="save-draft-option" name="publish_option" value="draft">
+            <label for="save-draft-option">
+              <i class="fas fa-save"></i> Save as Draft
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-large" id="submit-btn">
+          <i class="fas fa-paper-plane"></i> Publish Post
+        </button>
+        <button type="button" class="btn btn-secondary btn-large" id="save-draft-action">
+          <i class="fas fa-save"></i> Save as Draft
+        </button>
+        <a href="{{url_for('user.dashboard')}}" class="btn btn-outline btn-large">
+          <i class="fas fa-arrow-left"></i> Cancel
+        </a>
+      </div>
+    </form>
+
+    <!-- Preview Panel (Hidden) -->
+    <div id="preview-panel" class="preview-panel">
+      <div class="preview-header">
+        <h2>Preview</h2>
+        <button type="button" id="close-preview" class="btn-close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div id="preview-content" class="preview-content"></div>
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('user.static', filename='writezone.js') }}"></script>
+{% endblock %}

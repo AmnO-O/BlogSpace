@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - BlogSpace</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('auth.static', filename='login.css') }}">
+</head>
+
+<body>
+  <div class="login-page">
+    <div class="login-container">
+      <div class="login-left">
+        <h1>Welcome Back 👋</h1>
+        <p>Continue your journey on <span class="highlight">BlogSpace</span>.</p>
+        <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="Login Illustration">
+      </div>
+
+      <div class="login-right">
+        <h2>Log In</h2>
+        <p>Access your account to start writing again.</p>
+        
+        <form action="/auth/login" method="POST" class="login-form">
+          <div class="input-group">
+            <label for="email">Email</label>
+            <div class="input-icon">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+          </div>
+
+          <div class="input-group">
+            <label for="password">Password</label>
+            <div class="input-icon">
+              <i class="fas fa-lock"></i>
+              <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+          </div>
+
+          <div class="remember">
+            <label><input type="checkbox" name="remember"> Remember me</label>
+            <a href="#">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-large">Log In</button>
+        </form>
+
+        <p class="signup-text">Don't have an account? <a href="{{url_for('auth.signup')}}">Sign up</a></p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

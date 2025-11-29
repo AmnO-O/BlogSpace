@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> {% block title %} BlogSpace {% endblock %}</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('user.static', filename='layout.css') }}">
+    {% block css %}  {% endblock %}
+</head>
+
+<body>
+
+    <header class="dashboard-header">
+      <div class="logo">
+        <h1>BlogSpace 🌟</h1>
+      </div>
+
+      <div style = "display : flex; justify-content: center; gap: 100px; ">
+          <a href="#"><i class="fas fa-home"></i> Home</a>
+          <a href="{{url_for('user.read_zone')}}"><i class="fas fa-book-open"></i> Read Zone</a>
+          <a href="{{url_for('user.write_zone')}}"><i class="fas fa-pencil-alt"></i> Write Zone</a>
+      </div>
+
+      <div>
+        {% if not session.user_id %}
+          <li><a href="{{url_for('auth.login')}}" class="">Log In</a></li> 
+          <li><a href="{{url_for('auth.signup')}}" class="">Sign Up</a></li> 
+        {% else %}
+          <a href="#"><i class="fas fa-user"></i> Profile</a>
+          <a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        {% endif %}
+
+      </div>
+      
+    </header>
+    
+    <main>
+        {% block content %}
+            <!-- Page-specific content goes here -->
+        {% endblock %}
+    </main>
+
+    {%block script%} 
+        <!-- Page-specific content goes here -->
+    {% endblock %}
+</body>
+</html>

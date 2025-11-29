@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+
+{% block title %} {{ blog_data.title }} - BlogSpace {% endblock %}
+
+{% block css %}
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('user.static', filename='blog_detail.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="blog-detail-container" data-blog-id="{{ blog_data.id }}">
+  <main class="blog-detail-main">
+    
+    <!-- Blog Header -->
+    <div class="blog-header">
+      <a href="{{ url_for('user.read_zone') }}" class="blog-back-link">
+        <i class="fas fa-arrow-left"></i>
+        Back to Read Zone
+      </a>
+      
+      <h1 class="blog-title">{{ blog_data.title }}</h1>
+      
+      <div class="blog-meta-header">
+        <div class="blog-author">
+          <img src="{{ blog_data.author_avatar or 'https://via.placeholder.com/40' }}" 
+               alt="{{ blog_data.author_name }}" 
+               class="author-avatar">
+          <div class="author-info">
+            <div class="author-name">{{ blog_data.author_name }}</div>
+            <div class="blog-date">
+              <i class="fas fa-calendar"></i>
+              {{ blog_data.created_at }}
+            </div>
+          </div>
+        </div>
+        
+        {% if blog_data.category %}
+        <span class="blog-category-badge">
+          <i class="fas fa-tag"></i>
+          {{ blog_data.category }}
+        </span>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Featured Image -->
+    {% if blog_data.featured_image %}
+    <div class="blog-featured-image">
+      <img src="{{ blog_data.featured_image }}" alt="{{ blog_data.title }}">
+    </div>
+    {% endif %}
+
+    <!-- Blog Body -->
+    <div class="blog-body">
+      
+      <!-- Action Bar -->
+      <div class="blog-actions">
+        <div class="action-buttons">
+          <button id="like-btn" class="action-btn">
+            <i class="fas fa-heart"></i>
+            <span id="like-count">0</span>
+          </button>
+          <button id="bookmark-btn" class="action-btn">
+            <i class="fas fa-bookmark"></i>
+            Bookmark
+          </button>
+          <button id="share-btn" class="action-btn">
+            <i class="fas fa-share-alt"></i>
+            Share
+          </button>
+        </div>
+        
+        <div class="action-stats">
+          <!-- Stats will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Blog Content -->
+      <div id="content-html" class="blog-content">{{ blog_data.content|e }}</div>
+
+      <!-- Tags -->
+      <div id="post-tags" class="blog-tags">
+        <!-- Tags will be populated by JavaScript -->
+      </div>
+
+      <!-- Comments Section -->
+      <div class="comments-section">
+        <div class="comments-header">
+          <h3>
+            <i class="fas fa-comments"></i>
+            Comments
+            <span class="comments-count">0</span>
+          </h3>
+          <div class="comments-sort">
+            <button class="sort-btn-small active" data-sort="newest">
+              <i class="fas fa-clock"></i> Newest
+            </button>
+            <button class="sort-btn-small" data-sort="oldest">
+              <i class="fas fa-history"></i> Oldest
+            </button>
+            <button class="sort-btn-small" data-sort="popular">
+              <i class="fas fa-fire"></i> Popular
+            </button>
+          </div>
+        </div>
+
+        <!-- Comment Form -->
+        <div class="comment-form">
+          <div class="form-header">
+            <div class="form-avatar">
+              {{ session.username[0].upper() if session.username else 'G' }}
+            </div>
+            <div class="form-label">Add a comment</div>
+          </div>
+          
+          <textarea 
+            id="comment-input" 
+            placeholder="Share your thoughts about this post..." 
+            class="form-textarea"
+          ></textarea>
+          
+          <div class="form-footer">
+            <div class="form-actions">
+              <button class="form-action-btn" title="Add emoji">
+                <i class="fas fa-smile"></i>
+              </button>
+              <button class="form-action-btn" title="Add image">
+                <i class="fas fa-image"></i>
+              </button>
+              <button class="form-action-btn" title="Add code">
+                <i class="fas fa-code"></i>
+              </button>
+            </div>
+            
+            <button class="submit-comment-btn" id="submit-comment-btn">
+              <i class="fas fa-paper-plane"></i>
+              Post Comment
+            </button>
+          </div>
+        </div>
+
+        <!-- Comments List -->
+        <div class="comments-list" id="comments-list">
+          <!-- Comments will be populated by JavaScript -->
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('user.static', filename='blog_detail.js') }}"></script>
+{% endblock %}
