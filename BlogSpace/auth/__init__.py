@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session, redirect, url_for
-from ..database.repository.user_repo import UserService
+from ..database.repository.user_repo import UserService, UserRepository
 
 user_service = UserService()
 auth_bp = Blueprint('auth', __name__, template_folder = 'templates', 
@@ -55,7 +55,6 @@ def signup_post():
 
     return redirect(url_for('auth.login'))
 
-from werkzeug.security import check_password_hash
 
 @auth_bp.route('/login', methods=['POST'])
 def login_post():
@@ -67,9 +66,10 @@ def login_post():
 
     user = user_service.authenticate_user(email, password)
 
+
     if user is None:
         return render_template('login.html', error="Email hoặc mật khẩu không đúng!")
-
+    
     session.clear()
     session.permanent = True
     session["user_id"] = str(user.id)
