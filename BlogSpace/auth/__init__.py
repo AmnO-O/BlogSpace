@@ -72,7 +72,7 @@ def login_post():
     
     session.clear()
     session.permanent = True
-    session["user_id"] = str(user.id)
+    session["user_id"] = int(user.id)
     session["username"] = user.username
 
     return redirect(url_for('user.dashboard'))

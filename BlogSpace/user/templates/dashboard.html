@@ -49,20 +49,9 @@
                   <h1> Anonymous </h1>
               {% endif %}
               
-              <p class="profile-bio">Welcome to my blog space! 📝✨</p>
+              <p class="profile-bio"> Chua code nen khong sua duoc dau</p>
               <div class="profile-stats">
-                <div class="stat">
-                  <span class="stat-number">15</span>
-                  <span class="stat-label">Posts</span>
-                </div>
-                <div class="stat">
-                  <span class="stat-number">2.5K</span>
-                  <span class="stat-label">Followers</span>
-                </div>
-                <div class="stat">
-                  <span class="stat-number">4.8K</span>
-                  <span class="stat-label">Views</span>
-                </div>
+
               </div>
             </div>
             <button class="btn btn-secondary btn-small"><i class="fas fa-edit"></i> Edit Profile</button>
@@ -76,22 +65,22 @@
             <div class="stat-card">
               <i class="fas fa-pen-fancy"></i>
               <h4>Total Posts</h4>
-              <p class="big-number">15</p>
+              <p class="big-number"> </p>
             </div>
             <div class="stat-card">
               <i class="fas fa-heart"></i>
               <h4>Total Likes</h4>
-              <p class="big-number">892</p>
+              <p class="big-number"></p>
             </div>
             <div class="stat-card">
               <i class="fas fa-eye"></i>
               <h4>Total Views</h4>
-              <p class="big-number">4.8K</p>
+              <p class="big-number"></p>
             </div>
             <div class="stat-card">
               <i class="fas fa-comment"></i>
               <h4>Comments</h4>
-              <p class="big-number">234</p>
+              <p class="big-number"></p>
             </div>
           </div>
         </div>
@@ -101,73 +90,23 @@
       <section id="my-posts" class="my-posts-section">
         <div class="section-header">
           <h2>My Posts</h2>
-          <a href="{{url_for('user.static', filename='write-zone')}}" class="btn btn-primary btn-small">
+          <a href="{{url_for('user.write_zone')}}" class="btn btn-primary btn-small">
             <i class="fas fa-plus"></i> New Post
           </a>
         </div>
         
-        <div class="posts-list">
-          <!-- Post Item -->
-          <div class="post-item">
-            <div class="post-info">
-              <h3>How to Build a Blog with Python</h3>
-              <p class="post-excerpt">Learn step-by-step how to create a beautiful blog using Flask and SQLite...</p>
-              <div class="post-meta">
-                <span><i class="fas fa-calendar"></i> 2 days ago</span>
-                <span><i class="fas fa-eye"></i> 125 views</span>
-                <span><i class="fas fa-heart"></i> 45 likes</span>
-              </div>
-            </div>
-            <div class="post-actions">
-              <a href="#" class="btn-icon" title="View"><i class="fas fa-eye"></i></a>
-              <a href="#" class="btn-icon" title="Edit"><i class="fas fa-edit"></i></a>
-              <a href="#" class="btn-icon btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
-            </div>
-          </div>
-
-          <!-- Post Item -->
-          <div class="post-item">
-            <div class="post-info">
-              <h3>CSS Tips & Tricks for Beginners</h3>
-              <p class="post-excerpt">Master the fundamentals of CSS with these practical examples...</p>
-              <div class="post-meta">
-                <span><i class="fas fa-calendar"></i> 1 week ago</span>
-                <span><i class="fas fa-eye"></i> 320 views</span>
-                <span><i class="fas fa-heart"></i> 112 likes</span>
-              </div>
-            </div>
-            <div class="post-actions">
-              <a href="#" class="btn-icon" title="View"><i class="fas fa-eye"></i></a>
-              <a href="#" class="btn-icon" title="Edit"><i class="fas fa-edit"></i></a>
-              <a href="#" class="btn-icon btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
-            </div>
-          </div>
+        <div class="posts-list" id="my-posts-container">
+          <div class="loading-placeholder">Loading your posts...</div>
         </div>
       </section>
 
-      <!-- DRAFTS SECTION -->
-      <section id="drafts" class="drafts-section">
+    <section id="drafts" class="drafts-section">
         <div class="section-header">
           <h2>Drafts</h2>
         </div>
         
-        <div class="posts-list">
-          <div class="post-item">
-            <div class="post-info">
-              <h3>JavaScript Advanced Concepts</h3>
-              <p class="post-excerpt">Exploring closures, async/await, and more...</p>
-              <div class="post-meta">
-                <span><i class="fas fa-calendar"></i> Last edited 3 hours ago</span>
-                <span class="badge-draft">DRAFT</span>
-              </div>
-            </div>
-            <div class="post-actions">
-              <a href="#" class="btn-icon" title="Edit"><i class="fas fa-edit"></i></a>
-              <a href="#" class="btn-icon" title="Publish"><i class="fas fa-paper-plane"></i></a>
-              <a href="#" class="btn-icon btn-danger" title="Delete"><i class="fas fa-trash"></i></a>
-            </div>
+        <div class="posts-list" id="drafts-container">
           </div>
-        </div>
       </section>
 
       <!-- SETTINGS SECTION -->
@@ -222,21 +161,5 @@
 {% endblock %}
 
 {% block script %}
-<script>
-  // Simple navigation between sections
-  document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      
-      // Remove active class from all links and sections
-      document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-      document.querySelectorAll('.dashboard-main section').forEach(s => s.classList.remove('active-section'));
-      
-      // Add active class to clicked link and corresponding section
-      this.classList.add('active');
-      const sectionId = this.getAttribute('href');
-      document.querySelector(sectionId).classList.add('active-section');
-    });
-  });
-</script>
+<script src = "{{ url_for('user.static', filename = 'dashboard.js')}}"> </script>
 {% endblock %}

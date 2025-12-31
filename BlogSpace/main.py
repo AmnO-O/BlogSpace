@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, jsonify, abort, session, request
-from .database.repository.blog_repo import BlogService, BlogStatsService
+from .database.repository.blog_repo import BlogService
 
 
 blog_service = BlogService()
-
 
 main_bp = Blueprint('views', __name__)
 

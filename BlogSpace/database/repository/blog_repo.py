@@ -150,14 +150,20 @@ class BlogCommentService:
         self.stats_repo = BlogStatsRepository() 
 
     def add_comment(self, blog_id, user_id, content, parent_id=None):
-        new_comment = self.comment_repo.create(blog_id, user_id, content, parent_id)
-        
+        new_comment = self.comment_repo.create({
+            'blog_id': blog_id, 'user_id': user_id, 
+            'content': content, 'parent_id': parent_id
+        })        
+
         stats = self.stats_repo.get_by_blog_id(blog_id)
         if stats:
             stats.total_comments += 1
             self.stats_repo.save()
             
         return new_comment
+    
+    def get_comment_by_id(self, comment_id):
+        return self.comment_repo.get_by_id(comment_id)
 
-    def get_post_comments(self, blog_id):
+    def get_blog_comments(self, blog_id):
         return self.comment_repo.get_root_comments_by_blog(blog_id)

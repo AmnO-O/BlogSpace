@@ -28,7 +28,7 @@
           <li><a href="{{url_for('auth.login')}}" class="">Log In</a></li> 
           <li><a href="{{url_for('auth.signup')}}" class="">Sign Up</a></li> 
         {% else %}
-          <a href="#"><i class="fas fa-user"></i> Profile</a>
+          <a href="{{ url_for('user.dashboard') }}"><i class="fas fa-user"></i> Profile</a>
           <a href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a>
         {% endif %}
 

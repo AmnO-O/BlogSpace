@@ -53,10 +53,11 @@ class BlogComment(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
-
+    total_likes = db.Column(db.Integer, nullable=False, default=0)
     user = db.relationship("User", backref="BlogComment")
     blog = db.relationship("Blog", backref="BlogComment")
     replies = db.relationship("BlogComment", backref=db.backref("parent", remote_side=[id]), lazy="dynamic")
+
 
 
 ## ForeignKey dùng tên bảng
