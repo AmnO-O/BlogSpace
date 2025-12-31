@@ -45,7 +45,7 @@
 
     {% if blog_data.featured_image %}
     <div class="blog-featured-image">
-      <img src="{{ blog_data.featured_image }}" alt="{{ blog_data.title }}">
+        <img src="/static/{{ blog_data.featured_image }}" alt="{{ blog_data.title }}">  
     </div>
     {% endif %}
 
