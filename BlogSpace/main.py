@@ -15,7 +15,7 @@ def get_all_blogs():
     list_all_from_db = blog_service.list_all()
     output = []
 
-    print(len(list_all_from_db))
+    # print(len(list_all_from_db))
 
     for blog in list_all_from_db:
         views = blog.stats.total_views if blog.stats else 0
@@ -27,7 +27,7 @@ def get_all_blogs():
 
         if not image_path:
             image_path = 'uploads/avata.jpg'
-        print(image_path)
+        # print(image_path)
 
         blog_data = {
             'id': blog.id,

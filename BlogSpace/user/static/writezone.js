@@ -421,7 +421,7 @@ function main() {
 
     startAutoSaveInterval();
 
-    console.log('WriteZone Ready.');
+    // console.log('WriteZone Ready.');
 }
 
 document.addEventListener('DOMContentLoaded', main);

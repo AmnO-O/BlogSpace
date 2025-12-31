@@ -277,7 +277,7 @@ const API = {
             state.allPosts = data;
             AppLogic.filterPosts();
             
-            console.log(`Loaded ${data.length} posts successfully.`);
+            // console.log(`Loaded ${data.length} posts successfully.`);
 
         } catch (error) {
             console.error('Failed to fetch posts:', error);
@@ -392,11 +392,11 @@ function bindEventListeners() {
 // 9. MAIN ENTRY POINT
 // ==========================================
 async function main() {
-    console.log('ReadZone Initializing...');
+    // console.log('ReadZone Initializing...');
 
     bindEventListeners();
     await API.fetchAllPosts();
-    console.log('ReadZone Ready.');
+    // console.log('ReadZone Ready.');
 }
 
 // Chạy hàm main khi DOM đã tải xong
